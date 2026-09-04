@@ -1,0 +1,30 @@
+# Корень датасета. Абсолютный путь — намеренно.
+# У Roboflow в yaml было "../train/images", но ultralytics
+# разрешает такие пути от своего глобального datasets_dir
+# (/Users/test/datasets), а не от места этого файла —
+# отсюда типовой FileNotFoundError.
+path: /Users/test/Downloads/data_sauvc_test
+
+# Пути считаются ОТ path. Указываем папки с картинками;
+# папки labels/ ultralytics найдёт сам, подменив в пути
+# "images" на "labels" — поэтому структуру ломать нельзя.
+train: train/images
+val: valid/images
+
+# Ключ test убран: в архиве такой папки нет.
+
+nc: 9  # число классов, должно совпадать с длиной names
+
+# Записано словарём id: имя, а не списком — так сразу видно
+# соответствие индексов. Внимание на смещение: цифра в НАЗВАНИИ
+# начинается с 1, а индекс с 0. Класс "4_red_bowl" — это id 3.
+names:
+  0: 1_gate
+  1: 2_red_flare
+  2: 3_yellow_flare
+  3: 4_red_bowl               # 226 боксов — больше половины датасета
+  4: 5_blue_bowl
+  5: 6_mat
+  6: 7_gate_qualification     # 0 боксов! в метриках будет ноль
+  7: 8_blue_flare             # 4 бокса в train, в valid нет вообще
+  8: 9_small_red_flare
